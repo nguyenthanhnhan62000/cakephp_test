@@ -43,7 +43,10 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
         <div class="top-nav-links">
             <a target="_blank" rel="noopener" href="https://book.cakephp.org/4/">Documentation</a>
             <a target="_blank" rel="noopener" href="https://api.cakephp.org/">API</a>
-            <?= $this->Html->link("logout", ['controller' => 'Users', 'action' => 'logout']); ?>
+            <?php if ($username): ?> 
+            <?= $this->Html->link("logout", ['controller' => 'Users', 'action' => 'logout']); ?> 
+            <?php endif; ?>
+    
         </div>
     </nav>
     <main class="main">

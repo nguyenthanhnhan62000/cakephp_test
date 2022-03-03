@@ -34,6 +34,7 @@ class User extends Entity
         'created' => true,
         'modified' => true,
         'articles' => true,
+        'image' => true,
     ];
 
     /**
@@ -42,7 +43,7 @@ class User extends Entity
      * @var array
      */
     protected $_hidden = [
-        'password',
+        // 'password',
     ];
 
     protected function _setPassword(string $password) : ?string

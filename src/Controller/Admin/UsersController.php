@@ -21,8 +21,15 @@ class UsersController extends AppController
      */
     public function index()
     {
-        $users = $this->paginate($this->Users);
 
+        $key = $this->request->getQuery('key');
+        if ($key) {
+            $query = $this->Users->findByEmailOrPassword($key, $key);
+            // find('all')->where(['email like' => '%'. $key . '%']);
+        } else {
+            $query = $this->Users;
+        }
+        $users = $this->paginate($query);
         $this->set(compact('users'));
     }
 
@@ -51,7 +58,28 @@ class UsersController extends AppController
     {
         $user = $this->Users->newEmptyEntity();
         if ($this->request->is('post')) {
+
             $user = $this->Users->patchEntity($user, $this->request->getData());
+
+            if (!$user->getErrors) {
+
+                $image = $this->request->getData('image_file');
+                $name = $image->getClientFilename();
+
+                if (!is_dir(WWW_ROOT. 'img' .DS. 'user-img')) {
+                    mkdir(WWW_ROOT. 'img' .DS. 'user-img', 0775);
+                }
+
+                $targetPath = WWW_ROOT. 'img' .DS .'user-img'. DS. $name;
+
+           
+
+                if ($name) $image->moveTo($targetPath);
+
+                $user->image = 'user-img/'. $name;
+            }
+
+
             if ($this->Users->save($user)) {
                 $this->Flash->success(__('The user has been saved.'));
 
@@ -97,7 +125,16 @@ class UsersController extends AppController
     {
         $this->request->allowMethod(['post', 'delete']);
         $user = $this->Users->get($id);
+
+        
+        $imgPath = WWW_ROOT. 'img' .DS. $user->image;
+        exit(file_exists($imgPath));
+
+
         if ($this->Users->delete($user)) {
+            if (file_exists($imgPath)) {
+                unlink($imgPath);    
+            }
             $this->Flash->success(__('The user has been deleted.'));
         } else {
             $this->Flash->error(__('The user could not be deleted. Please, try again.'));
@@ -122,5 +159,18 @@ class UsersController extends AppController
     public function logout()
     {
         return $this->redirect($this->Auth->logout());
+    }
+
+    public function deleteAll(){
+
+        $this->request->allowMethod(['post', 'delete']);
+        $ids = $this->request->getData('ids');
+    
+
+        if ($this->Users->deleteAll(['Users.id In' => $ids])) {
+            $this->Flash->success(__('The user has been deleted.'));
+        }
+        return $this->redirect(['action' => 'index']);
+     
     }
 }
