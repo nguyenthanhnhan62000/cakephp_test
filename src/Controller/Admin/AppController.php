@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 
-namespace App\Controller;
+namespace App\Controller\Admin;
 
 use Cake\Controller\Controller;
 
@@ -16,6 +16,9 @@ class AppController extends Controller
 
         $this->loadComponent('RequestHandler');
         $this->loadComponent('Flash');
+        $this->loadComponent('Auth');
+
+        $this->Auth->allow(['login', 'index', 'add']);
 
         /*
          * Enable the following component for recommended CakePHP form protection settings.

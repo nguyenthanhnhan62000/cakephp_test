@@ -1,7 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Controller;
+namespace App\Controller\Admin;
+
+use App\Controller\Admin\AppController;
 
 /**
  * Users Controller
@@ -21,6 +23,9 @@ class UsersController extends AppController
         $users = $this->paginate($this->Users);
 
         $this->set(compact('users'));
+
+
+      
     }
 
     /**
@@ -101,5 +106,21 @@ class UsersController extends AppController
         }
 
         return $this->redirect(['action' => 'index']);
+    }
+
+    public function login()
+    {
+        if ($this->request->is('post')) {
+            $user = $this->Auth->identify();
+            // debug($user);
+            // exit;
+            if ($user) {
+                $this->Auth->setUser($user);    
+                return $this->redirect(['controller' => 'Users', 'action' => 'index']);
+            }else{
+                $this->Flash->error("Incorrect email or password");
+            }
+        }
+
     }
 }
