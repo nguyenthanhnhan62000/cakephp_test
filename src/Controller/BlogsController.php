@@ -23,7 +23,7 @@ class BlogsController extends AppController
 
         $articles = $this->Articles->find('all')->order(['Articles.id DESC'])->limit(3);
 
-        $this->set('articles', $articles);
+        $this->set('articles', $this->paginate($articles,['limit' => 3]));
     }
     
     public function about(){
