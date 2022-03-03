@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Controller\Admin;
@@ -23,9 +24,6 @@ class UsersController extends AppController
         $users = $this->paginate($this->Users);
 
         $this->set(compact('users'));
-
-
-      
     }
 
     /**
@@ -112,15 +110,17 @@ class UsersController extends AppController
     {
         if ($this->request->is('post')) {
             $user = $this->Auth->identify();
-            // debug($user);
-            // exit;
+
             if ($user) {
-                $this->Auth->setUser($user);    
+                $this->Auth->setUser($user);
                 return $this->redirect(['controller' => 'Users', 'action' => 'index']);
-            }else{
+            } else {
                 $this->Flash->error("Incorrect email or password");
             }
         }
-
+    }
+    public function logout()
+    {
+        return $this->redirect($this->Auth->logout());
     }
 }
