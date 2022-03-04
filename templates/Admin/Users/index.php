@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\User[]|\Cake\Collection\CollectionInterface $users
@@ -11,7 +12,7 @@
     <?= $this->Form->control('key', ['label' => 'Search']) ?>
     <?= $this->Form->submit() ?>
     <?= $this->Form->end() ?>
-    
+
 
     <div class="table-responsive">
         <?= $this->Form->create(null, ['url' => ['action' => 'deleteAll']]) ?>
@@ -26,25 +27,36 @@
                     <th><?= $this->Paginator->sort('image') ?></th>
                     <th><?= $this->Paginator->sort('created') ?></th>
                     <th><?= $this->Paginator->sort('modified') ?></th>
+                    <th><?= $this->Paginator->sort('Change status') ?></th>
                     <th class="actions"><?= __('Actions') ?></th>
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($users as $user): ?>
-                <tr>
-                    <td><?= $this->Form->checkbox('ids[]', ['value' => $user->id]) ?></td>
-                    <td><?= $this->Number->format($user->id) ?></td>
-                    <td><?= h($user->email) ?></td>
-                    <td><?= h($user->password) ?></td>
-                    <td><?= @$this->Html->image($user->image) ?></td>
-                    <td><?= h($user->created) ?></td>
-                    <td><?= h($user->modified) ?></td>
-                    <td class="actions">
-                        <?= $this->Html->link(__('View'), ['action' => 'view', $user->id]) ?>
-                        <?= $this->Html->link(__('Edit'), ['action' => 'edit', $user->id]) ?>
-                        <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $user->id], ['block' => true, 'confirm' => __('Are you sure you want to delete # {0}?', $user->id)]) ?>
-                    </td>
-                </tr>
+                <?php foreach ($users as $user) : ?>
+                    <tr>
+                        <td><?= $this->Form->checkbox('ids[]', ['value' => $user->id]) ?></td>
+                        <td><?= $this->Number->format($user->id) ?></td>
+                        <td><?= h($user->email) ?></td>
+                        <td><?= h($user->password) ?></td>
+                        <td><?= @$this->Html->image($user->image) ?></td>
+                        <td><?= h($user->created) ?></td>
+                        <td><?= h($user->modified) ?></td>
+                        <td>
+                            <?php if ($user->status == 1) : ?>
+
+                                <?= $this->Form->postLink(__('Inactive'), ['action' => 'userStatus', $user->id, $user->status], ['block' => true, 'confirm' => __('Are you sure you want to inactive # {0}?', $user->id)]) ?>
+                            <?php else : ?>
+
+                                <?= $this->Form->postLink(__('Active'), ['action' => 'userStatus', $user->id, $user->status], ['block' => true, 'confirm' => __('Are you sure you want to Active # {0}?', $user->id)]) ?>
+                            <?php endif; ?>
+
+                        </td>
+                        <td class="actions">
+                            <?= $this->Html->link(__('View'), ['action' => 'view', $user->id]) ?>
+                            <?= $this->Html->link(__('Edit'), ['action' => 'edit', $user->id]) ?>
+                            <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $user->id], ['block' => true, 'confirm' => __('Are you sure you want to delete # {0}?', $user->id)]) ?>
+                        </td>
+                    </tr>
                 <?php endforeach; ?>
             </tbody>
         </table>

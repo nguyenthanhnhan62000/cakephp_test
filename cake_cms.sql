@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.4
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 03, 2022 at 07:10 PM
--- Server version: 10.4.17-MariaDB
--- PHP Version: 7.4.13
+-- Generation Time: Mar 04, 2022 at 10:38 AM
+-- Server version: 10.4.22-MariaDB
+-- PHP Version: 8.1.2
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -84,6 +84,7 @@ CREATE TABLE `users` (
   `email` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
   `image` varchar(255) DEFAULT NULL,
+  `status` tinyint(2) NOT NULL DEFAULT 1,
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -92,11 +93,10 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `email`, `password`, `image`, `created`, `modified`) VALUES
-(1, 'cakephp@dandev.net', '123456', NULL, '2022-03-01 23:34:12', '2022-03-01 23:34:12'),
-(2, 'nhanacc8@gmail.com', '$2y$10$FAKR7X41nZKUmnYYkfY/s.Mx9tamFDg7KohDR8Ysq79xHQmcPprJi', NULL, '2022-03-03 13:17:11', '2022-03-03 13:17:11'),
-(3, 'nhanacc8@1gmail.com', '$2y$10$nl8RjzlHLdWAvr53dyniHevK1eC7eHjvlisDJodGto2e1hH9qSS5C', 'ip_8.1.jfif', '2022-03-03 17:27:51', '2022-03-03 17:27:51'),
-(4, 'n1hanacc8@gmail.com', '$2y$10$b1qB5Y9GI3OMj5KpihWecuHG4EKHPptvFs08LJBFN1DEc3ptqySdq', 'ip_8.jfif', '2022-03-03 17:33:52', '2022-03-03 17:33:52');
+INSERT INTO `users` (`id`, `email`, `password`, `image`, `status`, `created`, `modified`) VALUES
+(1, 'cakephp@dandev.net', '123456', 'user-img/default.jpg', 0, '2022-03-01 23:34:12', '2022-03-04 09:33:46'),
+(2, 'nhanacc8@gmail.com', '$2y$10$FAKR7X41nZKUmnYYkfY/s.Mx9tamFDg7KohDR8Ysq79xHQmcPprJi', 'user-img/default.jpg', 1, '2022-03-03 13:17:11', '2022-03-04 09:33:22'),
+(3, 'nhanacc8@1gmail.com', '$2y$10$nl8RjzlHLdWAvr53dyniHevK1eC7eHjvlisDJodGto2e1hH9qSS5C', 'user-img/default.jpg', 0, '2022-03-03 17:27:51', '2022-03-04 09:33:11');
 
 --
 -- Indexes for dumped tables
