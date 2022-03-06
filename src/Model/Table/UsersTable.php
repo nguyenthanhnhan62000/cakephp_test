@@ -48,7 +48,14 @@ class UsersTable extends Table
         $this->addBehavior('Timestamp');
 
         $this->hasMany('Articles', [
-            'foreignKey' => 'user_id',
+            'foreignKey' => 'user_id'
+        ]);
+        $this->hasOne('Profiles', [
+            'foreignKey' => 'user_id','dependent' => true
+        ]);
+
+        $this->hasMany('Skills', [
+            'foreignKey' => 'user_id', 'dependent' => true
         ]);
     }
 

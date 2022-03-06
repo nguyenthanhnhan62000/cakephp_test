@@ -1,5 +1,16 @@
-<div class="container">
+<?php 
+    $this->Breadcrumbs->add(
+        'Home',
+        ['controller' => 'Blogs', 'action' => 'home'],
+        ['class' => 'breadcrumb-item active']
+    );
 
+?>
+
+<div class="container">
+    
+</div>
+<div class="container">
     <div class="row">
         <div class="col-4">
             <h3 style="color: #fff;" class="bg-info text-capitalize p-1">Recent Post</h3>
@@ -25,7 +36,7 @@
                             <p class="mb-1">
                                 <?=
                                     $this->Text->truncate(
-                                        $article->body,
+                                        $article->details,
                                         280,
                                         [
                                             'ellipsis' => '...',

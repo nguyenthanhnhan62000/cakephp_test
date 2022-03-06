@@ -19,7 +19,7 @@ class UsersController extends AppController
      *
      * @return \Cake\Http\Response|null|void Renders view
      */
-    public function index()
+    public function index() 
     {
 
         $key = $this->request->getQuery('key');
@@ -29,7 +29,7 @@ class UsersController extends AppController
         } else {
             $query = $this->Users;
         }
-        $users = $this->paginate($query);
+        $users = $this->paginate($query, ['contain' => ['Profiles', 'Skills']]);
         $this->set(compact('users'));
     }
 
@@ -137,11 +137,11 @@ class UsersController extends AppController
     {
         $this->request->allowMethod(['post', 'delete']);
         $user = $this->Users->get($id);
+       
 
 
         $imgPath = WWW_ROOT . 'img' . DS . $user->image;
-        exit(file_exists($imgPath));
-
+     
 
         if ($this->Users->delete($user)) {
             if (file_exists($imgPath)) {
@@ -151,18 +151,23 @@ class UsersController extends AppController
         } else {
             $this->Flash->error(__('The user could not be deleted. Please, try again.'));
         }
-
+     
         return $this->redirect(['action' => 'index']);
     }
 
     public function login()
     {
+        // $this->UserLogs->test();
+        // exit;
         if ($this->request->is('post')) {
             $user = $this->Auth->identify();
 
             if ($user) {
 
                 $this->Auth->setUser($user);
+
+                $this->UserLogs->saveIP($this->Auth->user('id'));
+
                 if ($user['status'] == 0) {
                     # code...
                     $this->Flash->error("You have not access permission");

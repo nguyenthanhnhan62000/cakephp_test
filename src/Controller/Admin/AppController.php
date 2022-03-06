@@ -16,7 +16,7 @@ class AppController extends Controller
 
         $this->loadComponent('RequestHandler');
         $this->loadComponent('Flash');
-
+        
 
         $this->loadComponent('Auth', [
             'authenticate' => [
@@ -33,8 +33,11 @@ class AppController extends Controller
             ],
             'unauthorizedRedirect' => $this->referer() // If unauthorized, return them to page they were just on
         ]);
-   
+
+        
         $this->set('username' , $this->Auth->user('email'));
+        
+        $this->loadComponent('UserLogs');
 
         $this->Auth->allow(['login', 'index']);
 

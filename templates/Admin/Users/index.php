@@ -1,4 +1,6 @@
+<?php $this->Html->css('my', ['block' => true]); ?>
 <?php
+
 
 /**
  * @var \App\View\AppView $this
@@ -25,6 +27,8 @@
                     <th><?= $this->Paginator->sort('email') ?></th>
                     <th><?= $this->Paginator->sort('password') ?></th>
                     <th><?= $this->Paginator->sort('image') ?></th>
+                    <th><?= $this->Paginator->sort('mobile') ?></th>
+                    <th><?= $this->Paginator->sort('skills') ?></th>
                     <th><?= $this->Paginator->sort('created') ?></th>
                     <th><?= $this->Paginator->sort('modified') ?></th>
                     <th><?= $this->Paginator->sort('Change status') ?></th>
@@ -39,6 +43,17 @@
                         <td><?= h($user->email) ?></td>
                         <td><?= h($user->password) ?></td>
                         <td><?= @$this->Html->image($user->image) ?></td>
+
+                        <td><?= @h($user->profile->mobile) ?></td>
+
+                        <td>
+                            <?php
+                                foreach ($user->skills as $key => $skill) {
+                                    echo $skill->name , ' ';
+                                }
+                            ?>
+                        </td>
+
                         <td><?= h($user->created) ?></td>
                         <td><?= h($user->modified) ?></td>
                         <td>
